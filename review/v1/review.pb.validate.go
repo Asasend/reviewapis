@@ -79,10 +79,21 @@ func (m *CreateReviewRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if val := m.GetScore(); val < 0 || val > 5 {
+	if m.GetStoreID() <= 0 {
+		err := CreateReviewRequestValidationError{
+			field:  "StoreID",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := _CreateReviewRequest_Score_InLookup[m.GetScore()]; !ok {
 		err := CreateReviewRequestValidationError{
 			field:  "Score",
-			reason: "value must be inside range [0, 5]",
+			reason: "value must be in list [1 2 3 4 5]",
 		}
 		if !all {
 			return err
@@ -90,10 +101,10 @@ func (m *CreateReviewRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if val := m.GetServiceScore(); val <= 0 || val > 5 {
+	if _, ok := _CreateReviewRequest_ServiceScore_InLookup[m.GetServiceScore()]; !ok {
 		err := CreateReviewRequestValidationError{
 			field:  "ServiceScore",
-			reason: "value must be inside range (0, 5]",
+			reason: "value must be in list [1 2 3 4 5]",
 		}
 		if !all {
 			return err
@@ -101,10 +112,10 @@ func (m *CreateReviewRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if val := m.GetExpressScore(); val <= 0 || val > 5 {
+	if _, ok := _CreateReviewRequest_ExpressScore_InLookup[m.GetExpressScore()]; !ok {
 		err := CreateReviewRequestValidationError{
 			field:  "ExpressScore",
-			reason: "value must be inside range (0, 5]",
+			reason: "value must be in list [1 2 3 4 5]",
 		}
 		if !all {
 			return err
@@ -112,10 +123,10 @@ func (m *CreateReviewRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if l := utf8.RuneCountInString(m.GetContent()); l < 10 || l > 255 {
+	if l := utf8.RuneCountInString(m.GetContent()); l < 8 || l > 255 {
 		err := CreateReviewRequestValidationError{
 			field:  "Content",
-			reason: "value length must be between 10 and 255 runes, inclusive",
+			reason: "value length must be between 8 and 255 runes, inclusive",
 		}
 		if !all {
 			return err
@@ -208,6 +219,30 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateReviewRequestValidationError{}
+
+var _CreateReviewRequest_Score_InLookup = map[int32]struct{}{
+	1: {},
+	2: {},
+	3: {},
+	4: {},
+	5: {},
+}
+
+var _CreateReviewRequest_ServiceScore_InLookup = map[int32]struct{}{
+	1: {},
+	2: {},
+	3: {},
+	4: {},
+	5: {},
+}
+
+var _CreateReviewRequest_ExpressScore_InLookup = map[int32]struct{}{
+	1: {},
+	2: {},
+	3: {},
+	4: {},
+	5: {},
+}
 
 // Validate checks the field values on CreateReviewReply with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -1454,6 +1489,17 @@ func (m *AuditAppealRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if m.GetReviewID() <= 0 {
+		err := AuditAppealRequestValidationError{
+			field:  "ReviewID",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if m.GetStatus() <= 0 {
 		err := AuditAppealRequestValidationError{
 			field:  "Status",
@@ -1582,8 +1628,6 @@ func (m *AuditAppealReply) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for AppealID
-
 	if len(errors) > 0 {
 		return AuditAppealReplyMultiError(errors)
 	}
@@ -1687,6 +1731,28 @@ func (m *ListReviewByUserIDRequest) validate(all bool) error {
 	if m.GetUserID() <= 0 {
 		err := ListReviewByUserIDRequestValidationError{
 			field:  "UserID",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetPage() <= 0 {
+		err := ListReviewByUserIDRequestValidationError{
+			field:  "Page",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetSize() <= 0 {
+		err := ListReviewByUserIDRequestValidationError{
+			field:  "Size",
 			reason: "value must be greater than 0",
 		}
 		if !all {

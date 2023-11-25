@@ -28,19 +28,19 @@ const OperationReviewListReviewByUserID = "/api.review.v1.Review/ListReviewByUse
 const OperationReviewReplyReview = "/api.review.v1.Review/ReplyReview"
 
 type ReviewHTTPServer interface {
-	// AppealReview 申诉评价
+	// AppealReview B端申诉评价
 	AppealReview(context.Context, *AppealReviewRequest) (*AppealReviewReply, error)
-	// AuditAppeal 评价申诉审核
+	// AuditAppeal O端评价申诉审核
 	AuditAppeal(context.Context, *AuditAppealRequest) (*AuditAppealReply, error)
-	// AuditReview 审核评价
+	// AuditReview O端审核评价
 	AuditReview(context.Context, *AuditReviewRequest) (*AuditReviewReply, error)
-	// CreateReview 创建评价
+	// CreateReview C端创建评价
 	CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewReply, error)
-	// GetReview 获取评价详情
+	// GetReview C端获取评价详情
 	GetReview(context.Context, *GetReviewRequest) (*GetReviewReply, error)
-	// ListReviewByUserID --- c ---
+	// ListReviewByUserID C端查看userID下所有评价
 	ListReviewByUserID(context.Context, *ListReviewByUserIDRequest) (*ListReviewByUserIDReply, error)
-	// ReplyReview 回复评价
+	// ReplyReview B端回复评价
 	ReplyReview(context.Context, *ReplyReviewRequest) (*ReplyReviewReply, error)
 }
 
@@ -48,10 +48,10 @@ func RegisterReviewHTTPServer(s *http.Server, srv ReviewHTTPServer) {
 	r := s.Route("/")
 	r.POST("/v1/review", _Review_CreateReview0_HTTP_Handler(srv))
 	r.GET("/v1/review/{reviewID}", _Review_GetReview0_HTTP_Handler(srv))
-	r.POST("/v1/review/audit", _Review_AuditReview0_HTTP_Handler(srv))
-	r.POST("/v1/review/reply", _Review_ReplyReview0_HTTP_Handler(srv))
+	r.POST("/v1/review/audit", _Review_AuditReview1_HTTP_Handler(srv))
+	r.POST("/v1/review/reply", _Review_ReplyReview1_HTTP_Handler(srv))
 	r.POST("/v1/review/appeal", _Review_AppealReview0_HTTP_Handler(srv))
-	r.POST("/v1/appeal/audit", _Review_AuditAppeal0_HTTP_Handler(srv))
+	r.POST("/v1/appeal/audit", _Review_AuditAppeal1_HTTP_Handler(srv))
 	r.GET("/v1/{userID}/reviews", _Review_ListReviewByUserID0_HTTP_Handler(srv))
 }
 
@@ -99,7 +99,7 @@ func _Review_GetReview0_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Context
 	}
 }
 
-func _Review_AuditReview0_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Context) error {
+func _Review_AuditReview1_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in AuditReviewRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -121,7 +121,7 @@ func _Review_AuditReview0_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Conte
 	}
 }
 
-func _Review_ReplyReview0_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Context) error {
+func _Review_ReplyReview1_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ReplyReviewRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -165,7 +165,7 @@ func _Review_AppealReview0_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Cont
 	}
 }
 
-func _Review_AuditAppeal0_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Context) error {
+func _Review_AuditAppeal1_HTTP_Handler(srv ReviewHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in AuditAppealRequest
 		if err := ctx.Bind(&in); err != nil {

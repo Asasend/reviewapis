@@ -32,19 +32,19 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ReviewClient interface {
-	// 创建评价
+	// C端创建评价
 	CreateReview(ctx context.Context, in *CreateReviewRequest, opts ...grpc.CallOption) (*CreateReviewReply, error)
-	// 获取评价详情
+	// C端获取评价详情
 	GetReview(ctx context.Context, in *GetReviewRequest, opts ...grpc.CallOption) (*GetReviewReply, error)
-	// 审核评价
+	// O端审核评价
 	AuditReview(ctx context.Context, in *AuditReviewRequest, opts ...grpc.CallOption) (*AuditReviewReply, error)
-	// 回复评价
+	// B端回复评价
 	ReplyReview(ctx context.Context, in *ReplyReviewRequest, opts ...grpc.CallOption) (*ReplyReviewReply, error)
-	// 申诉评价
+	// B端申诉评价
 	AppealReview(ctx context.Context, in *AppealReviewRequest, opts ...grpc.CallOption) (*AppealReviewReply, error)
-	// 评价申诉审核
+	// O端评价申诉审核
 	AuditAppeal(ctx context.Context, in *AuditAppealRequest, opts ...grpc.CallOption) (*AuditAppealReply, error)
-	// --- c ---
+	// C端查看userID下所有评价
 	ListReviewByUserID(ctx context.Context, in *ListReviewByUserIDRequest, opts ...grpc.CallOption) (*ListReviewByUserIDReply, error)
 }
 
@@ -123,19 +123,19 @@ func (c *reviewClient) ListReviewByUserID(ctx context.Context, in *ListReviewByU
 // All implementations must embed UnimplementedReviewServer
 // for forward compatibility
 type ReviewServer interface {
-	// 创建评价
+	// C端创建评价
 	CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewReply, error)
-	// 获取评价详情
+	// C端获取评价详情
 	GetReview(context.Context, *GetReviewRequest) (*GetReviewReply, error)
-	// 审核评价
+	// O端审核评价
 	AuditReview(context.Context, *AuditReviewRequest) (*AuditReviewReply, error)
-	// 回复评价
+	// B端回复评价
 	ReplyReview(context.Context, *ReplyReviewRequest) (*ReplyReviewReply, error)
-	// 申诉评价
+	// B端申诉评价
 	AppealReview(context.Context, *AppealReviewRequest) (*AppealReviewReply, error)
-	// 评价申诉审核
+	// O端评价申诉审核
 	AuditAppeal(context.Context, *AuditAppealRequest) (*AuditAppealReply, error)
-	// --- c ---
+	// C端查看userID下所有评价
 	ListReviewByUserID(context.Context, *ListReviewByUserIDRequest) (*ListReviewByUserIDReply, error)
 	mustEmbedUnimplementedReviewServer()
 }
