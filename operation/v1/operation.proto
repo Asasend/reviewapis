@@ -9,16 +9,17 @@ option go_package = "review-o/api/operation/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.operation.v1";
 
+// 运营端服务
 service Operation {
 	rpc AuditReview (AuditReviewRequest) returns (AuditReviewReply) {
 		option (google.api.http) = {
-			post: "o/v1/review/audit",
+			post: "/o/v1/review/audit",
 			body: "*"
 		};
 	}
 	rpc AuditAppeal (AuditAppealRequest) returns (AuditAppealReply) {
 		option (google.api.http) = {
-			post: "o/v1/appeal/audit",
+			post: "/o/v1/appeal/audit",
 			body: "*"
 		};
 	}
